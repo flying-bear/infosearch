@@ -85,7 +85,7 @@ def main():
     loc = os.path.join(os.getcwd(),'friends')
     paths = paths_from_dir(loc)
     count_matrix = fit_count_matrix(paths)
-    print(tfidf_transform(count_matrix))
+    tfidf_matrix = tfidf_transform(count_matrix)
     vocabulary = np.array(vectorizer.get_feature_names())
     freq_list = get_freq_list(count_matrix)
 ##    a) какое слово является самым частотным
@@ -93,6 +93,8 @@ def main():
 ##    b) какое самым редким
     least_frequent_words = get_n_least_frequent(freq_list, vocabulary)
 ##    c) какой набор слов есть во всех документах коллекции
+    in_all_texts_bool = np.apply_along_axis(lambda x: 1 if not 0 in x else 0, 0, count_matrix)
+    in_all_texts = vocabulary[np.argmax(in_all_texts_bool)]
 ##    d) какой сезон был самым популярным у Чендлера? у Моники?
 ##    e) кто из главных героев статистически самый популярный?
 
