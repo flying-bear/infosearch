@@ -16,52 +16,86 @@
 ##        - функцию метрики релевантности 
 ##        - собственно, функцию поиска
 
+##    С помощью обратного индекса посчитайте:
+##    a) какое слово является самым частотным
+##    b) какое самым редким
+##    c) какой набор слов есть во всех документах коллекции
+##    d) какой сезон был самым популярным у Чендлера? у Моники?
+##    e) кто из главных героев статистически самый популярный?
+
 ## TODO:
 ##    - read from zip
 ##    - reusable
 ##    - pep8
 
+import numpy as np
 import os
 import pandas as pd
-import numpy as np
 import re
-raw_json_path = 'friends_raw.json'
+from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
+
+vectorizer = CountVectorizer(input = 'filename', encoding='utf-8')
 
 
-def text_strip_split(text):
-    low = text.lower()
-    stripped = re.sub('\.|,|#|$|%|\\|\'|\(|\)|-|\+|\*|/|\:|;|<|>|=|\?|\[|\]|@|^|_|`|{|}|~', '', low)
-    words = stripped.split()
-    return words
-
-
-def read_from_dir_to_pd(directory, column_names): # potentially reusable
-    raw_data = pd.DataFrame()
-    raw_data = pd.DataFrame(columns=column_names)
+def paths_from_dir(directory):
+    paths = []
     for root, dirs, files in os.walk(directory):
         for name in files:
-            ## мерзкая конкретика - preprocessing: splitting name
-            ep_num, ep_name = name.split(' - ')[1:]
-            ep_name = ep_name.strip('ru.txt')
-            season, episode = ep_num.split('x')
-            ## конец мерзкой конкретики
-            with open(os.path.join(root, name), 'r', encoding='utf-8') as f:
-                text = f.read()
-            raw_data = raw_data.append(dict(zip(column_names, [ep_name, season, episode, text, text_strip_split(text)])), ignore_index=True) # немного мерзкой конкретики - values
-    return raw_data
+            if os.path.splitext(name)[1] == '.txt':
+                paths.append(os.path.join(root, name))
+    return paths
 
 
-def get_and_save_df():
-    column_names = ['name', 'season', 'episode', 'text', 'words']
-    raw = read_from_dir_to_pd(os.path.join(os.getcwd()+'/friends'), column_names)
-    raw.to_json(raw_json_path, force_ascii=False)
+def fit_count_matrix(paths): # принимает список путей к файлам возвращает матрицу частотности (строки - документы, столбцы - слова)
+    X = vectorizer.fit_transform(paths)
+    matrix = X.toarray()
+    return matrix
+
+
+def tfidf_transform(count_matrix):
+    transformer = TfidfTransformer()
+    tfidf_matrix = transformer.fit_transform(count_matrix)
+    return tfidf_matrix
+
+
+def get_freq_list(count_matrix):
+    return np.sum(count_matrix, axis=0)
+
+
+def get_word_frequency_dictionary(freq_list, vocabulary):
+    freq_dict = {}
+    for i, word in enumerate(vocabulary):
+        freq_dict[word] = word_freq[i]
+    return freq_dict
+
+
+def get_n_most_frequent(freq_list, vocabulary, n=10):
+    indices = np.argpartition(freq_list, -n)[-n:]
+    most_freq_dict = dict(zip(vocabulary[indices], freq_list[indices]))
+    return most_freq_dict
+
+
+def get_n_least_frequent(freq_list, vocabulary, n=1):
+    indices = np.argpartition(freq_list, n)[n:]
+    least_freq_dict = dict(zip(vocabulary[indices], freq_list[indices]))
+    return least_freq_dict
 
 
 def main():
-    get_and_save_df()
-    raw = pd.read_json(raw_json_path)
-    print(raw.head())
+    loc = os.path.join(os.getcwd(),'friends')
+    paths = paths_from_dir(loc)
+    count_matrix = fit_count_matrix(paths)
+    print(tfidf_transform(count_matrix))
+    vocabulary = np.array(vectorizer.get_feature_names())
+    freq_list = get_freq_list(count_matrix)
+##    a) какое слово является самым частотным
+    most_frequent_word = get_n_most_frequent(freq_list, vocabulary, n=1)
+##    b) какое самым редким
+    least_frequent_words = get_n_least_frequent(freq_list, vocabulary)
+##    c) какой набор слов есть во всех документах коллекции
+##    d) какой сезон был самым популярным у Чендлера? у Моники?
+##    e) кто из главных героев статистически самый популярный?
 
 
 if __name__ == '__main__':
-    main()
+          main()
