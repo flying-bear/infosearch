@@ -81,6 +81,12 @@ def get_n_least_frequent(freq_list, vocabulary, n=1):
     return least_freq_dict
 
 
+def get_reverse_indexation(matrix):
+    list_of_words = vectorizer.vocabulary_
+    by_id = np.apply_along_axis(lambda col: [x[0] for x in sorted(enumerate(col), key=lambda x:x[1], reverse=True)], 0, matrix) 
+    return dict(zip(list_of_words, by_id))
+
+
 def main():
     loc = os.path.join(os.getcwd(),'friends')
     paths = paths_from_dir(loc)
@@ -88,6 +94,7 @@ def main():
     tfidf_matrix = tfidf_transform(count_matrix)
     vocabulary = np.array(vectorizer.get_feature_names())
     freq_list = get_freq_list(count_matrix)
+    print(list(get_reverse_indexation(count_matrix).items())[:10])
 ##    a) какое слово является самым частотным
     most_frequent_word = get_n_most_frequent(freq_list, vocabulary, n=1)
 ##    b) какое самым редким
