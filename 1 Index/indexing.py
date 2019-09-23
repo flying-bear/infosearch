@@ -126,7 +126,7 @@ def get_meta(paths): # takes a list of paths returns a list with a tuple (season
 
 
 def search(text, matrix, vocabulary): # takes a text and a doc to term matrix and its vocabulary returns a relevance-ordered list of document ids 
-    vector = vectorizer.transform([text]).reshape(1, -1)
+    vector = vectorizer.transform([text])
     cos_sim_list = []
     for row in matrix:
         cos_sim_list.append(cosine_similarity(vector, row.reshape(1, -1))[0])
