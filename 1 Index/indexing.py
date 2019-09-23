@@ -126,12 +126,7 @@ def get_meta(paths): # takes a list of paths returns a list with a tuple (season
 
 
 def search(text, matrix, vocabulary): # takes a text and a doc to term matrix and its vocabulary returns a relevance-ordered list of document ids 
-    words = text_strip_split(text)
-    vector = [0]*len(vocabulary)
-    for word in words:
-        if word in vocabulary:
-            vector[list(vocabulary).index(word)] += 1
-    vector = np.array(vector).reshape(1, -1)
+    vector = vectorizer.transform([text]).reshape(1, -1)
     cos_sim_list = []
     for row in matrix:
         cos_sim_list.append(cosine_similarity(vector, row.reshape(1, -1))[0])
@@ -154,6 +149,7 @@ def main():
     tfidf_matrix = tfidf_transform(count_matrix)
     np.save('tf_idf_matrix.npy', tfidf_matrix)
     vocabulary = np.array(vectorizer.get_feature_names())
+    vectorizer.set_params(input = 'content')
     freq_list = get_freq_list(count_matrix)
     reverse_index_count_dict = get_reverse_indexation(count_matrix, vocabulary)
     season_data = [x[0] for x in get_meta(paths)]
