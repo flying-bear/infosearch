@@ -164,11 +164,14 @@ def main():
                 meta.append(i)
 ##    a) какое слово является самым частотным
     most_frequent_word = get_n_most_frequent(freq_list, vocabulary, n=1)
+    print(most_frequent_word)
 ##    b) какое самым редким
     least_frequent_words = get_n_least_frequent(freq_list, vocabulary)
+    print('only some of the least frequent: ' + str(list(least_frequent_words.items())[500:550]))
 ##    c) какой набор слов есть во всех документах коллекции
     in_all_texts_bool = np.apply_along_axis(lambda x: 1 if not 0 in x else 0, 0, count_matrix)
     in_all_texts = vocabulary[np.argmax(in_all_texts_bool)]
+    print(in_all_texts)
 ##    d) какой сезон был самым популярным у Чендлера? у Моники?
 ##    e) кто из главных героев статистически самый популярный?
 
