@@ -1,0 +1,94 @@
+
+<!doctype html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>Search quora question pairs</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+      .themed-grid-col {
+          padding-top: 15px;
+          padding-bottom: 15px;
+          background-color: rgba(86, 61, 124, .15);
+          border: 1px solid rgba(86, 61, 124, .2);
+       }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="sticky-footer-navbar.css" rel="stylesheet">
+  </head>
+  <body class="d-flex flex-column h-100">
+    <header>
+  <!-- Fixed navbar -->
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div>
+          <form class="form-inline mt-2 mt-md-0" action="/search">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" name="query_text" aria-label="Search" required>
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    <button class="dropdown-item" type="radio" name="engine" value="tf_idf">TF-IDF</button>
+                    <button class="dropdown-item" type="radio" name="engine" value="bm25">BM25</button>
+                    <button class="dropdown-item" type="radio" name="engine" value="fasttext">fasttext</button>
+                    <button class="dropdown-item" type="radio" name="engine" value="elmo">ELMo</button>
+                </div>
+              </li>
+            </ul>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+      </div>
+  </nav>
+</header>
+
+<!-- Begin page content -->
+<main role="main" class="flex-shrink-0">
+  <div class="container">
+      <br>
+      <br>
+      {% if not engine or not text%}
+      <h2 class="mt-4">Search results will be displayed here</h2>
+      {% else %}
+      <br>
+      <br>
+      <h2 class="mt-4">Search results for "{{ text }}" in {{ engine }}.</h2>
+      {% for i in range(3) %}
+          <div class="row mb-3">
+            <div class="col-md-1 themed-grid-col">{{ i }}</div>
+            <div class="col-md-2 themed-grid-col">{{ metric[i] }}</div>
+            <div class="col-md-8 themed-grid-col">{{ text[i] }}</div>
+          </div>
+      {% endfor %}
+      {% endif %}
+  </div>
+</main>
+
+<footer class="footer mt-auto py-3">
+  <div class="container">
+    <span class="text-muted">Never look into the footers.</span>
+  </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
