@@ -118,7 +118,8 @@ class SearchBM25:
         if n >= trained_size:
             n = trained_size - 1
         vector = self.count_vectorizer.transform([text]).toarray()
-        norm_vector = normalize(vector).reshape(-1, 1)
+        binary_vector = np.vectorize(lambda x: 1.0 if x != 0.0 else 0.0)(vector)
+        norm_vector = normalize(binary_vector).reshape(-1, 1)
         cos_sim_list = np.dot(self.matrix, norm_vector)
         return [tup + (data_lemm.texts[tup[0]],) for tup in enum_sort_tuple([el[0] for el in cos_sim_list])[:n]]
 
