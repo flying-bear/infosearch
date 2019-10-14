@@ -10,8 +10,8 @@ import re
 
 from sklearn.feature_extraction.text import CountVectorizer
 
-morph=pymorphy2.MorphAnalyzer()
-trained_size = 10000 # constant that defines further size of corpus for models to be trained on
+morph = pymorphy2.MorphAnalyzer()
+trained_size = 10000  # constant that defines further size of corpus for models to be trained on
 
 
 def lemmatize(list_of_words):
@@ -40,10 +40,11 @@ def preprocess(text):
 def enum_sort_tuple(arr):
     """
     sorts list by values and returns sorted ids
+
     :param arr: list to be sorted
     :return: list of tuples (int, float),  ids and values sorted by the values in arr
     """
-    return sorted(enumerate(arr), key=lambda x:x[1], reverse=True)
+    return sorted(enumerate(arr), key=lambda x: x[1], reverse=True)
 
 
 def cos_sim(v1, v2):
@@ -60,6 +61,7 @@ def cos_sim(v1, v2):
 def get_data():
     """
     reads quora_question_pairs_rus dataset from file and applies preprocessing
+
     :return: a list of preprocessed strings-texts
     """
     questions = pd.read_csv("quora_question_pairs_rus.csv", index_col=0).dropna()
