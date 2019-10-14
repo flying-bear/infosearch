@@ -4,6 +4,7 @@ This module contains constants and functions to be used in all other modules of 
 
 import numpy as np
 import pandas as pd
+import pickle
 import pymorphy2
 import re
 
@@ -23,29 +24,26 @@ def lemmatize(list_of_words):
     return [morph.parse(word)[0].normal_form for word in list_of_words]
 
 
-def preprocess(text, lemm=False):
+def preprocess(text):
     """
     cleans a text of punctuation and case
 
     :param text: string to be cleaned
-    :param lemm: bool, if the words should be lemmatized, False by default
     :return: a list of strings (words) in lowercase and stripped of punctuation
     """
     low = text.lower()
     stripped = re.sub("!|\.|,|#|$|%|\\|\'|\(|\)|-|\+|\*|/|\:|;|<|>|=|\?|\[|\]|@|^|_|`|{|}|~", "", low)
     words = stripped.split()
-    if lemm:
-        words = lemmatize(words)
     return words
 
 
-def enum_sort(arr):
+def enum_sort_tuple(arr):
     """
     sorts list by values and returns sorted ids
     :param arr: list to be sorted
-    :return: list of ids sorted by thir values in arr
+    :return: list of tuples (int, float),  ids and values sorted by the values in arr
     """
-    return [x[0] for x in sorted(enumerate(arr), key=lambda x:x[1], reverse=True)]
+    return sorted(enumerate(arr), key=lambda x:x[1], reverse=True)
 
 
 def cos_sim(v1, v2):
@@ -59,15 +57,14 @@ def cos_sim(v1, v2):
     return np.inner(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
 
 
-def get_data(lemm=False):
+def get_data():
     """
     reads quora_question_pairs_rus dataset from file and applies preprocessing
-    :param lemm: bool, if True lemmatiztion is applied, False by default
     :return: a list of preprocessed strings-texts
     """
     questions = pd.read_csv("quora_question_pairs_rus.csv", index_col=0).dropna()
     train_texts = questions[:trained_size]['question2'].tolist()
-    preprocessed = [" ".join(preprocess(sent, lemm=lemm)) for sent in train_texts]
+    preprocessed = [" ".join(preprocess(sent)) for sent in train_texts]
     return preprocessed
 
 
@@ -83,3 +80,21 @@ def get_counts(list_of_texts):
     X = count_vectorizer.fit_transform(list_of_texts)
     count_matrix = X.toarray()
     return count_matrix, count_vectorizer
+
+
+class DataSet:
+    def __init__(self, lemm=False):
+        self.texts = get_data()
+        if lemm:
+            self.lemmatized_texts = [" ".join(lemmatize(sent.split())) for sent in self.texts]
+            self.count_matrix, self.count_vectorizer = get_counts(self.lemmatized_texts)
+            path = "lemmatized_count_vectorizer.pickle"
+        else:
+            path = "raw_count_vectorizer.pickle"
+            self.count_matrix, self.count_vectorizer = get_counts(self.texts)
+        with open(path, 'wb') as f:
+            pickle.dump(self.count_vectorizer, f)
+
+
+data_lemm = DataSet(lemm=True)
+data_raw = DataSet()
