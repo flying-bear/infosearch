@@ -7,6 +7,7 @@ import pickle
 
 from sklearn.preprocessing import normalize
 from sklearn.feature_extraction.text import TfidfTransformer
+# from time import time
 
 from constants import *
 
@@ -67,7 +68,10 @@ class SearhTfidf:
         vector = self.count_vectorizer.transform([text]).toarray()
         norm_vector = normalize(vector).reshape(-1, 1)
         cos_sim_list = np.dot(self.matrix, norm_vector)
-        return [tup + (data_lemm.texts[tup[0]],) for tup in enum_sort_tuple([el[0] for el in cos_sim_list])[:n]]
+        # [el[0] for el in cos_sim_list]
+        clean_cos_sim_list = list(map(lambda x: x[0], cos_sim_list))
+        # [tup + (data_lemm.texts[tup[0]],) for tup in enum_sort_tuple(clean_cos_sim_list)[:n]]
+        return list(map(lambda tup: tup + (data_lemm.texts[tup[0]],), enum_sort_tuple(clean_cos_sim_list)[:n]))
 
 
 def main():

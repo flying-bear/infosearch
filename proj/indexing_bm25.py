@@ -7,7 +7,7 @@ import pickle
 
 from math import log
 from sklearn.preprocessing import normalize
-#from time import time
+# from time import time
 
 from constants import *
 
@@ -94,12 +94,14 @@ class SearchBM25:
             "lemmatized_normalized_bm25_matrix.pickle" by default
         :return: np.ndarray, normalized tf-idf matrix
         """
-        lens = [len(text.split()) for text in data_lemm.texts]
+        # [len(text.split()) for text in data_lemm.texts]
+        lens = list(map(lambda text: len(text.split()), data_lemm.texts))
         avgdl = sum(lens) / self.N
         tf_matrix = data_lemm.count_matrix / np.array(lens).reshape((-1, 1))
         vocabulary = self.count_vectorizer.get_feature_names()
         in_n_docs = np.count_nonzero(data_lemm.count_matrix, axis=0)
-        idfs = [self.compute_modified_idf(word, vocabulary, in_n_docs) for word in vocabulary]
+        # [self.compute_modified_idf(word, vocabulary, in_n_docs) for word in vocabulary]
+        idfs = list(map(lambda word: self.compute_modified_idf(word, vocabulary, in_n_docs), vocabulary))
         bm25_matrix = self.compute_bm25(tf_matrix, lens, idfs, avgdl)
         matrix = normalize(bm25_matrix)
 
@@ -121,7 +123,10 @@ class SearchBM25:
         binary_vector = np.vectorize(lambda x: 1.0 if x != 0.0 else 0.0)(vector)
         norm_vector = normalize(binary_vector).reshape(-1, 1)
         cos_sim_list = np.dot(self.matrix, norm_vector)
-        return [tup + (data_lemm.texts[tup[0]],) for tup in enum_sort_tuple([el[0] for el in cos_sim_list])[:n]]
+        # [el[0] for el in cos_sim_list]
+        clean_cos_sim_list = list(map(lambda x: x[0], cos_sim_list))
+        # [tup + (data_lemm.texts[tup[0]],) for tup in enum_sort_tuple(clean_cos_sim_list)[:n]]
+        return list(map(lambda tup: tup + (data_lemm.texts[tup[0]],), enum_sort_tuple(clean_cos_sim_list)[:n]))
 
 
 def main():
