@@ -34,3 +34,4 @@ proj/quora_question_pairs_rus.csv
 proj/__pycache__/constants.cpython-36.pyc
 proj/lemmatized_tf_idf_matrix.npy
 *.pickle
+*.npy

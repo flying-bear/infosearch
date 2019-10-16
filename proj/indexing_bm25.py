@@ -7,7 +7,7 @@ import pickle
 
 from math import log
 from sklearn.preprocessing import normalize
-# from time import time
+from time import time
 
 from constants import *
 
@@ -16,18 +16,19 @@ class SearchBM25:
     """
     indexes and searches a query by BM25
     """
-    def __init__(self, path_bm25_matrix="", b=0.75, k=2.0):
+    def __init__(self, path_bm25_matrix="", data=data_lemm, b=0.75, k=2.0):
         """
         computes or loads indexed tf-idf matrix for search
 
         :param path_bm25_matrix: string, path to a pickle file with tf-idf matrix (loaded from file if given)
+        :param data: DataSet from constants, data_lemm by default
         :param b: float, b coefficient in bm25 formula, 0.75 by default
         :param k: float, bm25 coefficient, 2.0 by default
         """
         self.b = b
         self.k = k
         self.N = trained_size  # collection size, imported from constants
-        self.count_vectorizer = data_lemm.count_vectorizer
+        self.data = data
         if path_bm25_matrix:
             self.matrix = self.load(path_bm25_matrix)
         else:
@@ -36,7 +37,7 @@ class SearchBM25:
     @staticmethod
     def load(path_bm25_matrix):
         """
-        loads data form global data_lemm and given path
+        loads data form a given path
 
         :param path_bm25_matrix: string, path to a pickle file with tf-idf matrix
         :return: np.ndarray, tf-idf matrix from file
@@ -94,14 +95,12 @@ class SearchBM25:
             "lemmatized_normalized_bm25_matrix.pickle" by default
         :return: np.ndarray, normalized tf-idf matrix
         """
-        # [len(text.split()) for text in data_lemm.texts]
-        lens = list(map(lambda text: len(text.split()), data_lemm.texts))
+        lens = [len(text.split()) for text in self.data.texts]
         avgdl = sum(lens) / self.N
-        tf_matrix = data_lemm.count_matrix / np.array(lens).reshape((-1, 1))
-        vocabulary = self.count_vectorizer.get_feature_names()
-        in_n_docs = np.count_nonzero(data_lemm.count_matrix, axis=0)
-        # [self.compute_modified_idf(word, vocabulary, in_n_docs) for word in vocabulary]
-        idfs = list(map(lambda word: self.compute_modified_idf(word, vocabulary, in_n_docs), vocabulary))
+        tf_matrix = self.data.count_matrix / np.array(lens).reshape((-1, 1))
+        vocabulary = self.data.count_vectorizer.get_feature_names()
+        in_n_docs = np.count_nonzero(self.data.count_matrix, axis=0)
+        idfs = [self.compute_modified_idf(word, vocabulary, in_n_docs) for word in vocabulary]
         bm25_matrix = self.compute_bm25(tf_matrix, lens, idfs, avgdl)
         matrix = normalize(bm25_matrix)
 
@@ -115,31 +114,27 @@ class SearchBM25:
 
         :param text: string, query to be searched
         :param n: int, number of most relevant documents to be shown, 10 by default
-        :return: list of integers, relevance ordered ids of documents
+        :return: list of tuples (float, str), metric and document, relevance ordered
         """
         if n >= trained_size:
             n = trained_size - 1
-        vector = self.count_vectorizer.transform([text]).toarray()
-        binary_vector = np.vectorize(lambda x: 1.0 if x != 0.0 else 0.0)(vector)
-        norm_vector = normalize(binary_vector).reshape(-1, 1)
+        vector = self.data.count_vectorizer.transform([text]).toarray()
+        norm_vector = normalize(vector).reshape(-1, 1)
         cos_sim_list = np.dot(self.matrix, norm_vector)
-        # [el[0] for el in cos_sim_list]
-        clean_cos_sim_list = list(map(lambda x: x[0], cos_sim_list))
-        # [tup + (data_lemm.texts[tup[0]],) for tup in enum_sort_tuple(clean_cos_sim_list)[:n]]
-        return list(map(lambda tup: tup + (data_lemm.texts[tup[0]],), enum_sort_tuple(clean_cos_sim_list)[:n]))
+        return [(metric[0], self.data.texts[index]) for index, metric in enum_sort_tuple(cos_sim_list)[:n]]
 
 
 def main():
-    # start = time()
-    # bm25 = SearchBM25("lemmatized_normalized_bm25_matrix.pickle")
-    # print(f"loading took {time()-start} sec")
-    # start = time()
-    # print(bm25.search("Я дурак в воде, меня нет нигде..."))
-    # print(f"searching took {time()-start} sec")
-    # start = time()
-    # print(bm25.search("а возлюбленный мой развернулся и ушёл"))
-    # print(f"searching took {time() - start} sec")
-    SearchBM25()  # save the precomputed matrix
+    # SearchBM25()  # save the precomputed matrix
+    start = time()
+    bm25 = SearchBM25("lemmatized_normalized_bm25_matrix.pickle")
+    print(f"loading took {time()-start} sec")
+    start = time()
+    print(bm25.search("Я дурак в воде, меня нет нигде..."))
+    print(f"searching took {time()-start} sec")
+    start = time()
+    print(bm25.search("а возлюбленный мой развернулся и ушёл"))
+    print(f"searching took {time() - start} sec")
 
 
 if __name__ == "__main__":
