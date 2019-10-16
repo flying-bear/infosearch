@@ -1,0 +1,115 @@
+2019-10-16 08:19:28,373 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 08:19:29,183 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 08:19:31,703 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 08:20:03,041 - INFO - searching for 5 most relevant results for я не очень хороший программист in tf-idf model
+2019-10-16 08:33:30,102 - INFO - ________________new app run__________________
+2019-10-16 08:33:30,103 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 08:33:30,941 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 08:33:33,425 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 08:36:09,015 - INFO - searching for 5 most relevant results for 'Как жить на свете мне?' in bm25 model
+2019-10-16 08:36:30,894 - INFO - searching for 5 most relevant results for 'kajfka' in tf-idf model
+2019-10-16 08:36:30,946 - INFO - nothing was found for kajfka in tf-idf model
+2019-10-16 08:38:28,620 - INFO - ________________new app run__________________
+2019-10-16 08:38:28,621 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 08:38:29,485 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 08:38:31,999 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 08:38:58,829 - INFO - searching for 5 most relevant results for 'как научить питона программировать?' in bm25 model
+2019-10-16 08:41:05,998 - INFO - searching for 5 most relevant results for 'what do i do with my life' in tf-idf model
+2019-10-16 08:44:34,342 - INFO - ________________new app run__________________
+2019-10-16 08:44:34,343 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 08:44:35,198 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 08:44:37,714 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 08:45:00,215 - INFO - searching for 10 most relevant results for 'почему приложение так долго грузится' in tf-idf model
+2019-10-16 08:45:21,730 - INFO - searching for 10 most relevant results for 'what do i do with my life' in bm25 model
+2019-10-16 08:52:23,264 - INFO - ________________new app run__________________
+2019-10-16 08:52:23,265 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 08:52:24,117 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 08:52:26,661 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 08:52:44,437 - INFO - searching for 10 most relevant results for 'h fd nnn я дурак' in tf-idf model
+2019-10-16 08:52:44,489 - INFO - expected to find 10 results, but only 3 was found
+2019-10-16 08:53:50,009 - INFO - ________________new app run__________________
+2019-10-16 08:53:50,010 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 08:53:50,888 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 08:53:53,466 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 08:54:15,286 - INFO - loading elmo from elmo_matrix.pickle
+2019-10-16 08:54:15,326 - INFO - searching for 10 most relevant results for 'Я сломаю элмо' in elmo model
+2019-10-16 08:54:25,242 - INFO - expected to find 10 results, but found only 10
+2019-10-16 08:56:38,672 - INFO - ________________new app run__________________
+2019-10-16 08:56:38,673 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 08:56:39,869 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 08:56:42,497 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 08:57:52,845 - INFO - searching for 10 most relevant results for 'БЛЯЯЯЯЯ' in bm25 model
+2019-10-16 08:57:52,905 - INFO - nothing was found for 'БЛЯЯЯЯЯ' in bm25 model
+2019-10-16 08:58:07,430 - INFO - searching for 10 most relevant results for 'что делать с жизнью' in bm25 model
+2019-10-16 08:58:21,006 - INFO - searching for 10 most relevant results for 'рдппдп рпп ннн инн и м' in tf-idf model
+2019-10-16 08:58:35,675 - INFO - searching for 10 most relevant results for 'дурак' in tf-idf model
+2019-10-16 08:58:35,723 - INFO - expected to find 10 results, but found only 1
+2019-10-16 08:58:58,966 - INFO - loading elmo from elmo_matrix.pickle
+2019-10-16 08:58:59,007 - INFO - searching for 10 most relevant results for 'я полный дебил' in elmo model
+2019-10-16 09:11:22,163 - INFO - ________________new app run__________________
+2019-10-16 09:11:22,164 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 09:11:23,329 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 09:11:26,040 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 09:12:07,465 - INFO - searching for 10 most relevant results for 'нет меня и довольно падаю ниже нуля' in tf-idf model
+2019-10-16 09:12:37,258 - CRITICAL - app crashed with exception '>=' not supported between instances of 'str' and 'int'
+2019-10-16 09:12:45,851 - INFO - searching for 10 most relevant results for 'я полный дебил' in bm25 model
+2019-10-16 09:14:28,702 - INFO - ________________new app run__________________
+2019-10-16 09:14:28,703 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 09:14:29,524 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 09:14:32,058 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 09:15:39,381 - INFO - ________________new app run__________________
+2019-10-16 09:15:39,383 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 09:15:40,263 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 09:15:42,838 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 09:15:56,874 - INFO - searching for 10 most relevant results for 'жизнь трудна, но к счастью коротка' in tf-idf model
+2019-10-16 09:16:04,761 - INFO - searching for 5 most relevant results for 'хуже меня нет' in tf-idf model
+2019-10-16 09:16:11,093 - INFO - searching for 10 most relevant results for 'я полный дебил' in tf-idf model
+2019-10-16 09:20:35,459 - INFO - ________________new app run__________________
+2019-10-16 09:20:35,460 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 09:20:36,289 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 09:20:38,802 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 09:22:52,675 - INFO - ________________new app run__________________
+2019-10-16 09:22:52,676 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 09:22:53,507 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 09:22:55,982 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 09:24:15,091 - INFO - ________________new app run__________________
+2019-10-16 09:24:15,092 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 09:24:15,904 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 09:24:18,310 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 09:24:44,333 - INFO - searching for 5 most relevant results for 'жизнь трудна, но к счастью коротка' in bm25 model
+2019-10-16 09:26:42,283 - INFO - ________________new app run__________________
+2019-10-16 09:26:42,284 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 09:26:43,104 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 09:26:45,576 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 09:27:39,164 - INFO - loading elmo from elmo_matrix.pickle
+2019-10-16 09:27:39,205 - INFO - searching for 21 most relevant results for 'ах ну почему наши дела так унылы' in elmo model
+2019-10-16 09:30:45,939 - INFO - ________________new app run__________________
+2019-10-16 09:30:45,940 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 09:30:47,122 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 09:30:49,856 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 09:31:07,416 - INFO - searching for 4 most relevant results for 'и больше звуков нет на целом свете' in tf-idf model
+2019-10-16 09:33:57,874 - INFO - ________________new app run__________________
+2019-10-16 09:33:57,875 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 09:33:58,706 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 09:34:01,192 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 09:36:33,638 - INFO - ________________new app run__________________
+2019-10-16 09:36:33,639 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 09:36:34,510 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 09:36:36,963 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 09:42:18,049 - INFO - ________________new app run__________________
+2019-10-16 09:42:18,050 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 09:42:18,930 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 09:42:21,457 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 09:42:48,560 - INFO - searching for 10 most relevant results for 'я полный дебил' in bm25 model
+2019-10-16 09:43:13,977 - INFO - searching for 13 most relevant results for 'кто виноват и что делать' in fasttext model
+2019-10-16 09:43:56,396 - INFO - ________________new app run__________________
+2019-10-16 09:43:56,397 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 09:43:57,216 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 09:43:59,690 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 09:44:19,725 - INFO - searching for 13 most relevant results for 'кто виноват и что делать' in fasttext model
+2019-10-16 09:44:48,059 - INFO - loading elmo from elmo_matrix.pickle
+2019-10-16 09:44:48,102 - INFO - searching for 4 most relevant results for 'учебный офис опять за своё' in elmo model
+2019-10-16 09:45:41,765 - INFO - searching for 2 most relevant results for ',neskjfhew' in tf-idf model
+2019-10-16 09:45:41,826 - INFO - nothing was found for ',neskjfhew' in tf-idf model
+2019-10-16 09:45:50,459 - INFO - searching for 3 most relevant results for 'jjj' in bm25 model
+2019-10-16 09:45:50,509 - INFO - nothing was found for 'jjj' in bm25 model

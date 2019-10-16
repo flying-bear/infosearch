@@ -1,6 +1,7 @@
 """
 This module handles the app.
 """
+
 import tensorflow as tf
 
 from flask import Flask, request, render_template
@@ -27,14 +28,18 @@ def initial():
 
 
 @app.route('/search', methods=['GET'])
-def search(n=10):
-    try:
+def search():
+    try:  # log exceptions
         if request.args:
+            if "n" in request.args:  # if n specified
+                n = int(request.args["n"])
+            else:  # n=10 by default
+                n = 10
             metrics = []
-            text = request.args["query_text"]
-            if "engine" in request.args:
+            text = request.args["query_text"]  # REQUIRED
+            if "engine" in request.args:  # if engine specified
                 engine = request.args["engine"]
-            else:
+            else:  # tf-idf by default
                 engine = "tf-idf"
             if engine == "tf-idf":
                 metrics = tf_idf.search(text, n=n)
@@ -56,8 +61,8 @@ def search(n=10):
             return render_template("index.html", text=text, engine=engine, n=n, metrics=metrics)
         else:
             return render_template("index.html")
-    except Exception as ex:
-        logger.critical(f"app crashed with exception {ex}")
+    except Exception as ex:  # catch and log and do not embarrass yourself
+        logger.critical(f"app crashed with exception '{ex}'")
         return render_template("index.html", exception=ex)
 
 if __name__ == "__main__":

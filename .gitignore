@@ -1,5 +1,3 @@
-
-*.txt
 1 Index/.ipynb_checkpoints/sem1_Index-checkpoint.ipynb
 2
 .idea/infosearch.iml
@@ -24,8 +22,6 @@ proj/elmo/README
 proj/elmo/vocab.txt.gz
 proj/fasttext/model.model
 proj/elmo_helpers.py
-proj/fasttext/model.model.vectors.npy
-proj/fasttext/model.model.vectors_vocab.npy
 proj/fasttext/README
 proj/get_elmo_vectors.py
 proj/vocabulary.py
