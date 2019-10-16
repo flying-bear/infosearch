@@ -25,10 +25,10 @@ class SearchBM25:
         :param b: float, b coefficient in bm25 formula, 0.75 by default
         :param k: float, bm25 coefficient, 2.0 by default
         """
+        self.data = data
         self.b = b
         self.k = k
         self.N = trained_size  # collection size, imported from constants
-        self.data = data
         if path_bm25_matrix:
             self.matrix = self.load(path_bm25_matrix)
         else:
@@ -100,7 +100,8 @@ class SearchBM25:
         tf_matrix = self.data.count_matrix / np.array(lens).reshape((-1, 1))
         vocabulary = self.data.count_vectorizer.get_feature_names()
         in_n_docs = np.count_nonzero(self.data.count_matrix, axis=0)
-        idfs = [self.compute_modified_idf(word, vocabulary, in_n_docs) for word in vocabulary]
+        # [self.compute_modified_idf(word, vocabulary, in_n_docs) for word in vocabulary]
+        idfs = map(lambda word: self.compute_modified_idf(word, vocabulary, in_n_docs), vocabulary)
         bm25_matrix = self.compute_bm25(tf_matrix, lens, idfs, avgdl)
         matrix = normalize(bm25_matrix)
 
@@ -118,7 +119,8 @@ class SearchBM25:
         """
         if n >= trained_size:
             n = trained_size - 1
-        vector = self.data.count_vectorizer.transform([text]).toarray()
+        query = " ".join(lemmatize(preprocess(text)))
+        vector = self.data.count_vectorizer.transform([query]).toarray()
         norm_vector = normalize(vector).reshape(-1, 1)
         cos_sim_list = np.dot(self.matrix, norm_vector)
         return [(metric[0], self.data.texts[index]) for index, metric in enum_sort_tuple(cos_sim_list)[:n]]
