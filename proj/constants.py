@@ -23,8 +23,7 @@ def lemmatize(list_of_words):
     :param list_of_words: list of str to be lemmatized
     :return: list of lemmatized word str
     """
-    # [morph.parse(word)[0].normal_form for word in list_of_words]
-    return list(map(lambda word: morph.parse(word)[0].normal_form, list_of_words))
+    return [morph.parse(word)[0].normal_form for word in list_of_words]
 
 
 
@@ -70,8 +69,7 @@ def get_data():
     """
     questions = pd.read_csv("quora_question_pairs_rus.csv", index_col=0).dropna()
     train_texts = questions[:trained_size]['question2'].tolist()
-    # [" ".join(preprocess(sent)) for sent in train_texts]
-    preprocessed =  list(map(lambda sent: " ".join(preprocess(sent)), train_texts))
+    preprocessed = [" ".join(preprocess(sent)) for sent in train_texts]
     return preprocessed
 
 
@@ -94,7 +92,7 @@ class DataSet:
         self.texts = get_data()
         if lemm:
             # [" ".join(lemmatize(sent.split())) for sent in self.texts]
-            self.lemmatized_texts = list(map(lambda sent: " ".join(lemmatize(sent.split())), self.texts))
+            self.lemmatized_texts = [" ".join(lemmatize(text.split())) for text in self.texts]
             self.count_matrix, self.count_vectorizer = get_counts(self.lemmatized_texts)
             path = "lemmatized_count_vectorizer.pickle"
         else:
