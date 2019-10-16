@@ -35,3 +35,4 @@ proj/__pycache__/constants.cpython-36.pyc
 proj/lemmatized_tf_idf_matrix.npy
 *.pickle
 *.npy
+*.pyc

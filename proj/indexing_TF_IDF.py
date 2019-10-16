@@ -12,7 +12,7 @@ from time import time
 from constants import *
 
 
-class SearhTfidf:
+class SearchTfidf:
     """
     indexes and searches a query by TF-IDF
     """
@@ -74,7 +74,7 @@ class SearhTfidf:
 def main():
     #SearhTfidf()  # save the precomputed matrix
     start = time()
-    tfidf = SearhTfidf("lemmatized_normalized_tf_idf_matrix.pickle")
+    tfidf = SearchTfidf("lemmatized_normalized_tf_idf_matrix.pickle")
     print(f"loading took {time()-start} sec")
     start = time()
     print(tfidf.search("горе горькое моё горе луковое"))
