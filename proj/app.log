@@ -164,3 +164,10 @@
 2019-10-16 11:45:07,759 - INFO - searching for 10 most relevant results for 'Как жить на свете мне?' in elmo model
 2019-10-16 11:45:15,254 - INFO - loading elmo from elmo_matrix.pickle
 2019-10-16 11:45:15,302 - INFO - searching for 10 most relevant results for 'Как жить на свете мне?' in elmo model
+2019-10-16 11:51:18,513 - INFO - ________________new app run__________________
+2019-10-16 11:51:18,513 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 11:51:19,638 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 11:51:22,168 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 11:51:24,824 - INFO - loading elmo from elmo_matrix.pickle
+2019-10-16 11:51:31,751 - INFO - searching for 10 most relevant results for 'я полный дебил' in elmo model
+2019-10-16 11:51:31,759 - CRITICAL - app crashed with exception 'Cannot interpret feed_dict key as Tensor: Tensor Tensor("Placeholder:0", shape=(?, ?, 50), dtype=int32) is not an element of this graph.'
