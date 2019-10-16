@@ -18,9 +18,9 @@ class SearchBM25:
     """
     def __init__(self, path_bm25_matrix="", data=data_lemm, b=0.75, k=2.0):
         """
-        computes or loads indexed tf-idf matrix for search
+        computes or loads indexed bm25 matrix for search
 
-        :param path_bm25_matrix: string, path to a pickle file with tf-idf matrix (loaded from file if given)
+        :param path_bm25_matrix: string, path to a pickle file with bm25 matrix (loaded from file if given)
         :param data: lemmatized version of DataSet from constants, data_lemm by default
         :param b: float, b coefficient in bm25 formula, 0.75 by default
         :param k: float, bm25 coefficient, 2.0 by default
@@ -39,8 +39,8 @@ class SearchBM25:
         """
         loads data form a given path
 
-        :param path_bm25_matrix: string, path to a pickle file with tf-idf matrix
-        :return: np.ndarray, tf-idf matrix from file
+        :param path_bm25_matrix: string, path to a pickle file with bm25 matrix
+        :return: np.ndarray, bm25 matrix from file
         """
         with open(path_bm25_matrix, 'rb') as f:
             return pickle.load(f)
