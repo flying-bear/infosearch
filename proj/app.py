@@ -32,7 +32,11 @@ def search():
     try:  # log exceptions
         if request.args:
             if "n" in request.args:  # if n specified
-                n = int(request.args["n"])
+                n = request.args["n"]
+                if n:
+                    n = int(n)
+                else:
+                    n = 10
             else:  # n=10 by default
                 n = 10
             metrics = []
