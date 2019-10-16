@@ -12,9 +12,6 @@ from elmo_helpers import tokenize, get_elmo_vectors, load_elmo_embeddings
 from constants import *
 
 
-tf.reset_default_graph()
-
-
 class SearchELMo:
     """
     indexes and searches a query by ELMo
@@ -121,10 +118,10 @@ def main():
     elmo = SearchELMo("elmo_matrix.pickle")
     print(f"loading took {time()-start} sec")
     start = time()
-    print("\n".join(map(str, elmo.search("я так хочу спать нет сил"))))
+    print(elmo.search("я так хочу спать нет сил"))
     print(f"searching took {time()-start} sec")
     start = time()
-    print(elmo.search("почему я расковыриваю лицо и губы"))
+    print(elmo.search("интересно, заработет ли здесь элмо"))
     print(f"searching took {time() - start} sec")
 
 

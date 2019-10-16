@@ -33,8 +33,7 @@
           border: 1px solid rgba(86, 61, 124, .2);
        }
     </style>
-    <!-- Custom styles for this template -->
-    <link href="sticky-footer-navbar.css" rel="stylesheet">
+
   </head>
   <body class="d-flex flex-column h-100">
     <header>
@@ -47,7 +46,7 @@
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <button class="dropdown-item" type="radio" name="engine" value="tf_idf">TF-IDF</button>
+                    <button class="dropdown-item" type="radio" name="engine" value="tf-idf">TF-IDF</button>
                     <button class="dropdown-item" type="radio" name="engine" value="bm25">BM25</button>
                     <button class="dropdown-item" type="radio" name="engine" value="fasttext">fasttext</button>
                     <button class="dropdown-item" type="radio" name="engine" value="elmo">ELMo</button>
@@ -67,15 +66,23 @@
       <br>
       {% if not engine or not text%}
       <h2 class="mt-4">Search results will be displayed here</h2>
-      {% else %}
+      {% elif not metrics %}
+      <h2 class="mt-4">Nothing was found for "{{ text }}" with {{ engine }}.</h2>
+      {% else%}
       <br>
       <br>
-      <h2 class="mt-4">Search results for "{{ " ".join(text) }}" in {{ engine }}.</h2>
-      {% for i in range(3) %}
+      <h2 class="mt-4">Search results for "{{ text }}" with {{ engine }}.</h2>
+      <br>
+      <div class="row mb-3">
+          <div class="col-md-1 themed-grid-col"><b>rank</b></div>
+            <div class="col-md-2 themed-grid-col"><b>metric</b></div>
+            <div class="col-md-8 themed-grid-col"><b>text</b></div>
+          </div>
+      {% for i in range(n) %}
           <div class="row mb-3">
-            <div class="col-md-1 themed-grid-col">{{ i }}</div>
-            <div class="col-md-2 themed-grid-col">{{ metric[i] }}</div>
-            <div class="col-md-8 themed-grid-col">{{ text[i] }}</div>
+            <div class="col-md-1 themed-grid-col">{{ i + 1 }}</div>
+            <div class="col-md-2 themed-grid-col">{{ metrics[i][0] }}</div>
+            <div class="col-md-8 themed-grid-col">{{ metrics[i][1] }}</div>
           </div>
       {% endfor %}
       {% endif %}
@@ -84,7 +91,7 @@
 
 <footer class="footer mt-auto py-3">
   <div class="container">
-    <span class="text-muted">Never look into the footers.</span>
+    <span class="text-muted"> The sleepiest human in the universe had created this. Never look into the footers.</span>
   </div>
 </footer>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
