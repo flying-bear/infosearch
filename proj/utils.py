@@ -4,13 +4,14 @@ This module contains constants and functions to be used in all other modules of 
 
 import logging
 import numpy as np
-import os
 import pandas as pd
 import pickle
 import pymorphy2
 import re
 
 from sklearn.feature_extraction.text import CountVectorizer
+
+from config import trained_size
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -20,14 +21,6 @@ fh.setFormatter(formatter)
 logger.addHandler(fh)
 
 morph = pymorphy2.MorphAnalyzer()
-trained_size = 10000  # constant that defines further size of corpus for models to be trained on
-path_fasttext_model = os.path.join("fasttext", "model.model")
-
-path_tfidf_matrix = "lemmatized_normalized_tf_idf_matrix.pickle"
-path_bm25_matrix = "lemmatized_normalized_bm25_matrix.pickle"
-path_fasttext_matrix = "lemmatized_fasttext_matrix.pickle"
-path_elmo_matrix = "elmo_matrix.pickle"
-
 
 
 def lemmatize(list_of_words):
@@ -38,7 +31,6 @@ def lemmatize(list_of_words):
     :return: list of lemmatized word str
     """
     return [morph.parse(word)[0].normal_form for word in list_of_words]
-
 
 
 def preprocess(text):
@@ -109,11 +101,13 @@ class DataSet:
         lemmatized_texts,  a list of lemmatized preprocessed str
         count_matrix, a np.ndarray from  sklearn CountVectorizer fitted on dataset
         count_vectorizer, sklearn CountVectorizer fitted on dataset
+        length, train_size
     """
     def __init__(self, path="lemmatized_count_vectorizer.pickle"):
         """
         :param path: str, where to dump pickled CountVectorizer, "lemmatized_count_vectorizer.pickle" by default
         """
+        self.length = trained_size
         self.texts = get_data()
         self.lemmatized_texts = [" ".join(lemmatize(text.split())) for text in self.texts]
         self.count_matrix, self.count_vectorizer = get_counts(self.lemmatized_texts)

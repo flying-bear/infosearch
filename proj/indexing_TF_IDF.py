@@ -9,8 +9,8 @@ from sklearn.preprocessing import normalize
 from sklearn.feature_extraction.text import TfidfTransformer
 from time import time
 
-from constants import *
-
+from utils import logger, data_lemm
+from utils import preprocess, lemmatize, enum_sort_tuple
 
 class SearchTfidf:
     """
@@ -28,8 +28,7 @@ class SearchTfidf:
         else:
             self.matrix = self.index()
 
-    @staticmethod
-    def load(path_tfidf_matrix):
+    def load(self, path_tfidf_matrix):
         """
         loads data form a given path
 
@@ -37,9 +36,13 @@ class SearchTfidf:
         :return: np.ndarray, tf-idf matrix from file
         """
         logger.info(f"loading tf-id from {path_tfidf_matrix}")
-        with open(path_tfidf_matrix, 'rb') as f:
-            matrix = pickle.load(f)
-        return matrix
+        try:
+            with open(path_tfidf_matrix, 'rb') as f:
+                matrix = pickle.load(f)
+            return matrix
+        except FileNotFoundError as ex:
+            logger.critical(f"file not found: '{ex}'")
+            return self.index()
 
     def index(self, path="lemmatized_normalized_tf_idf_matrix.pickle"):
         """
@@ -66,8 +69,8 @@ class SearchTfidf:
         :param n: int, number of most relevant documents to be shown, 10 by default
         :return: list of integers, relevance ordered ids of documents
         """
-        if n >= trained_size:
-            n = trained_size - 1
+        if n >= self.data.length:
+            n = self.data.length - 1
 
         logger.info(f"searching for {n} most relevant results for '{text}' in tf-idf model")
 
@@ -78,9 +81,8 @@ class SearchTfidf:
         return [(metric[0], self.data.texts[index]) for index, metric in enum_sort_tuple(cos_sim_list)[:n]]
 
 
-
 def main():
-    #SearhTfidf()  # save the precomputed matrix
+    # SearhTfidf()  # save the precomputed matrix
     start = time()
     tfidf = SearchTfidf("lemmatized_normalized_tf_idf_matrix.pickle")
     print(f"loading took {time()-start} sec")

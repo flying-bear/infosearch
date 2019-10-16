@@ -9,7 +9,9 @@ import tensorflow as tf
 from time import time
 
 from elmo_helpers import tokenize, get_elmo_vectors, load_elmo_embeddings
-from constants import *
+
+from utils import logger, data_lemm
+from utils import preprocess, lemmatize, enum_sort_tuple, cos_sim
 
 
 class SearchELMo:
@@ -30,8 +32,7 @@ class SearchELMo:
         else:
             self.matrix = self.index()
 
-    @staticmethod
-    def load(path_elmo_matrix):
+    def load(self, path_elmo_matrix):
         """
         loads data form a given path
 
@@ -39,9 +40,13 @@ class SearchELMo:
         :return: np.ndarray, elmo matrix from file
         """
         logger.info(f"loading elmo from {path_elmo_matrix}")
-        with open(path_elmo_matrix, 'rb') as f:
-            matrix = pickle.load(f)
-        return matrix
+        try:
+            with open(path_elmo_matrix, 'rb') as f:
+                matrix = pickle.load(f)
+            return matrix
+        except FileNotFoundError as ex:
+            logger.critical(f"file not found: '{ex}'")
+            return self.index()
 
     @staticmethod
     def crop_vec(vect, sent):
@@ -106,8 +111,8 @@ class SearchELMo:
         :param n: int, how many most relevant results to return, 10 by default
         :return: list of tuples (float, str), cos_sim to the text, document text
         """
-        if n >= trained_size:
-            n = trained_size - 1
+        if n >= self.data.length:
+            n = self.data.length - 1
 
         logger.info(f"searching for {n} most relevant results for '{text}' in elmo model")
 

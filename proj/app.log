@@ -113,3 +113,54 @@
 2019-10-16 09:45:41,826 - INFO - nothing was found for ',neskjfhew' in tf-idf model
 2019-10-16 09:45:50,459 - INFO - searching for 3 most relevant results for 'jjj' in bm25 model
 2019-10-16 09:45:50,509 - INFO - nothing was found for 'jjj' in bm25 model
+2019-10-16 10:45:36,858 - INFO - ________________new app run__________________
+2019-10-16 10:45:36,858 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 10:45:37,983 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 10:45:42,232 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 10:57:16,047 - INFO - searching for 10 most relevant results for 'в чем цель жизни' in tf-idf model
+2019-10-16 10:57:41,408 - INFO - searching for 10 most relevant results for 'в чем цель жизни' in bm25 model
+2019-10-16 10:57:54,372 - INFO - searching for 10 most relevant results for 'в чем цель жизни' in tf-idf model
+2019-10-16 10:58:00,823 - INFO - searching for 10 most relevant results for 'в чем цель жизни' in fasttext model
+2019-10-16 10:58:08,699 - INFO - searching for 10 most relevant results for 'в чем цель жизни' in fasttext model
+2019-10-16 10:58:20,871 - INFO - searching for 10 most relevant results for 'в чем цель жизни' in fasttext model
+2019-10-16 10:58:44,016 - INFO - loading elmo from elmo_matrix.pickle
+2019-10-16 10:58:44,068 - INFO - searching for 10 most relevant results for 'в чем цель жизни' in elmo model
+2019-10-16 11:12:43,428 - INFO - ________________new app run__________________
+2019-10-16 11:12:43,428 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 11:12:44,562 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 11:12:47,323 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 11:12:58,901 - INFO - searching for 5 most relevant results for 'Как жить на свете мне?' in bm25 model
+2019-10-16 11:15:25,509 - INFO - loading elmo from elmo_matrix.pickle
+2019-10-16 11:15:25,555 - INFO - searching for 10 most relevant results for 'я так хочу спать нет сил' in elmo model
+2019-10-16 11:15:34,913 - INFO - searching for 10 most relevant results for 'интересно, заработет ли здесь элмо' in elmo model
+2019-10-16 11:26:55,212 - INFO - ________________new app run__________________
+2019-10-16 11:26:55,212 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 11:26:56,336 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 11:26:58,992 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 11:27:04,562 - INFO - searching for 5 most relevant results for 'Как жить на свете мне?' in bm25 model
+2019-10-16 11:27:19,712 - INFO - searching for 10 most relevant results for 'jhhsehjes' in tf-idf model
+2019-10-16 11:27:19,768 - INFO - nothing was found for 'jhhsehjes' in tf-idf model
+2019-10-16 11:28:06,882 - INFO - searching for 10 most relevant results for 'nns njnsg дурак' in tf-idf model
+2019-10-16 11:28:06,938 - INFO - expected to find 10 results, but found only 1
+2019-10-16 11:31:59,092 - INFO - loading elmo from elmo_matrix.pickle
+2019-10-16 11:32:25,211 - INFO - loading elmo from elmo_matrix.pickle
+2019-10-16 11:32:25,258 - INFO - searching for 10 most relevant results for 'я так хочу спать нет сил' in elmo model
+2019-10-16 11:42:04,445 - INFO - loading elmo from elmo_matrix.pickle
+2019-10-16 11:42:04,492 - INFO - searching for 10 most relevant results for 'я так хочу спать нет сил' in elmo model
+2019-10-16 11:42:13,552 - INFO - searching for 10 most relevant results for 'интересно, заработет ли здесь элмо' in elmo model
+2019-10-16 11:43:05,047 - INFO - ________________new app run__________________
+2019-10-16 11:43:05,047 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 11:43:06,219 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 11:43:27,808 - INFO - ________________new app run__________________
+2019-10-16 11:43:27,808 - INFO - loading tf-id from lemmatized_normalized_tf_idf_matrix.pickle
+2019-10-16 11:43:28,589 - INFO - loading bm25 from lemmatized_normalized_bm25_matrix.pickle
+2019-10-16 11:43:30,870 - INFO - loading fasttext from lemmatized_fasttext_matrix.pickle
+2019-10-16 11:43:44,901 - INFO - searching for 10 most relevant results for 'Как жить на свете мне?' in tf-idf model
+2019-10-16 11:43:52,096 - INFO - searching for 3 most relevant results for 'в чем цель жизни' in fasttext model
+2019-10-16 11:44:32,084 - INFO - searching for 10 most relevant results for 'дурак длоцрц hjff' in tf-idf model
+2019-10-16 11:44:32,140 - INFO - expected to find 10 results, but found only 1
+2019-10-16 11:45:05,851 - INFO - searching for 10 most relevant results for 'Как жить на свете мне?' in tf-idf model
+2019-10-16 11:45:07,728 - INFO - loading elmo from elmo_matrix.pickle
+2019-10-16 11:45:07,759 - INFO - searching for 10 most relevant results for 'Как жить на свете мне?' in elmo model
+2019-10-16 11:45:15,254 - INFO - loading elmo from elmo_matrix.pickle
+2019-10-16 11:45:15,302 - INFO - searching for 10 most relevant results for 'Как жить на свете мне?' in elmo model

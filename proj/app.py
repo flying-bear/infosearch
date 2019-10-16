@@ -6,8 +6,8 @@ import tensorflow as tf
 
 from flask import Flask, request, render_template
 
-from constants import logger
-from constants import path_tfidf_matrix, path_bm25_matrix, path_fasttext_matrix, path_elmo_matrix
+from utils import logger
+from config import path_tfidf_matrix, path_bm25_matrix, path_fasttext_matrix, path_elmo_matrix
 
 from indexing_TF_IDF import SearchTfidf
 from indexing_bm25 import SearchBM25
@@ -68,6 +68,7 @@ def search():
     except Exception as ex:  # catch and log and do not embarrass yourself
         logger.critical(f"app crashed with exception '{ex}'")
         return render_template("index.html", exception=ex)
+
 
 if __name__ == "__main__":
     app.run()

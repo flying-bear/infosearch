@@ -8,7 +8,10 @@ import pickle
 from gensim.models.keyedvectors import KeyedVectors
 from time import time
 
-from constants import *
+from utils import logger, data_lemm
+from utils import preprocess, lemmatize, enum_sort_tuple, cos_sim
+
+from config import path_fasttext_model
 
 
 class SearchFastText:
@@ -30,8 +33,7 @@ class SearchFastText:
         else:
             self.matrix = self.index()
 
-    @staticmethod
-    def load(path_fasttext_matrix):
+    def load(self, path_fasttext_matrix):
         """
         loads data form a given path
 
@@ -39,8 +41,13 @@ class SearchFastText:
         :return: np.ndarray, fasttext matrix from file
         """
         logger.info(f"loading fasttext from {path_fasttext_matrix}")
-        with open(path_fasttext_matrix, 'rb') as f:
-            return pickle.load(f)
+        try:
+            with open(path_fasttext_matrix, 'rb') as f:
+                matrix = pickle.load(f)
+            return matrix
+        except FileNotFoundError as ex:
+            logger.critical(f"file not found: '{ex}'")
+            return self.index()
 
     def doc_to_vec(self, lemmas):
         """
@@ -88,8 +95,8 @@ class SearchFastText:
         :param n: int, number of most relevant documents to be shown, 10 by default
         :return: list of tuples (float, str), metric and document, relevance ordered
         """
-        if n >= trained_size:
-            n = trained_size - 1
+        if n >= self.data.length:
+            n = self.data.length - 1
 
         logger.info(f"searching for {n} most relevant results for '{text}' in fasttext model")
 

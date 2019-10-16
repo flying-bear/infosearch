@@ -9,7 +9,8 @@ from math import log
 from sklearn.preprocessing import normalize
 from time import time
 
-from constants import *
+from utils import logger, data_lemm
+from utils import preprocess, lemmatize, enum_sort_tuple
 
 
 class SearchBM25:
@@ -28,14 +29,12 @@ class SearchBM25:
         self.data = data
         self.b = b
         self.k = k
-        self.N = trained_size  # collection size, imported from constants
         if path_bm25_matrix:
             self.matrix = self.load(path_bm25_matrix)
         else:
             self.matrix = self.index()
 
-    @staticmethod
-    def load(path_bm25_matrix):
+    def load(self, path_bm25_matrix):
         """
         loads data form a given path
 
@@ -43,8 +42,12 @@ class SearchBM25:
         :return: np.ndarray, bm25 matrix from file
         """
         logger.info(f"loading bm25 from {path_bm25_matrix}")
-        with open(path_bm25_matrix, 'rb') as f:
-            return pickle.load(f)
+        try:
+            with open(path_bm25_matrix, 'rb') as f:
+                return pickle.load(f)
+        except FileNotFoundError as ex:
+            logger.critical(f"file not found: '{ex}'")
+            return self.index()
 
     def compute_modified_idf(self, word, vocabulary, in_n_docs):
         """
@@ -57,7 +60,7 @@ class SearchBM25:
         """
         word_id = vocabulary.index(word)
         n = in_n_docs[word_id]
-        return log((self.N - n + 0.5) / (n + 0.5))
+        return log((self.data.length - n + 0.5) / (n + 0.5))
 
     def modify_tf(self, tf_value, doc_index, lens, avgdl):
         """
@@ -98,7 +101,7 @@ class SearchBM25:
         """
         logger.info("indexing bm25 matrix")
         lens = [len(text.split()) for text in self.data.texts]
-        avgdl = sum(lens) / self.N
+        avgdl = sum(lens) / self.data.length
         tf_matrix = self.data.count_matrix / np.array(lens).reshape((-1, 1))
         vocabulary = self.data.count_vectorizer.get_feature_names()
         in_n_docs = np.count_nonzero(self.data.count_matrix, axis=0)
@@ -120,8 +123,8 @@ class SearchBM25:
         :param n: int, number of most relevant documents to be shown, 10 by default
         :return: list of tuples (float, str), metric and document, relevance ordered
         """
-        if n >= trained_size:
-            n = trained_size - 1
+        if n >= self.data.length:
+            n = self.data.length - 1
 
         logger.info(f"searching for {n} most relevant results for '{text}' in bm25 model")
 
