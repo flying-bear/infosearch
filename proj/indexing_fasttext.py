@@ -10,6 +10,7 @@ from time import time
 
 from constants import *
 
+
 class SearchFastText:
     """
     indexes and searches a query by fasttext
@@ -20,7 +21,7 @@ class SearchFastText:
 
         :param path_model: str, path to a gensim fasttext model, imported from constants by default
         :param path_fasttext_matrix: str, path to a pickle file with fasttext matrix (loaded from file if given)
-        :param data: DataSet from constants, data_lemm by default
+        :param data: lemmatized version of DataSet from constants, data_lemm by default
         """
         self.model = KeyedVectors.load(path_model)
         self.data = data
@@ -84,8 +85,8 @@ class SearchFastText:
         :return: list of tuples (float, str), metric and document, relevance ordered
         """
         vector = self.doc_to_vec(lemmatize(preprocess(text)))
-        cos_sim_relevance = [cos_sim(vector, document) for document in self.matrix]
-        return [(metric, self.data.texts[index]) for index, metric in enum_sort_tuple(cos_sim_relevance)[:n]]
+        cos_sim_list = [cos_sim(vector, document) for document in self.matrix]
+        return [(metric, self.data.texts[index]) for index, metric in enum_sort_tuple(cos_sim_list)[:n]]
 
 
 def main():

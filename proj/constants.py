@@ -3,6 +3,7 @@ This module contains constants and functions to be used in all other modules of 
 """
 
 import numpy as np
+import os
 import pandas as pd
 import pickle
 import pymorphy2
@@ -12,14 +13,15 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 morph = pymorphy2.MorphAnalyzer()
 trained_size = 10000  # constant that defines further size of corpus for models to be trained on
+path_fasttext_model = os.path.join("fasttext", "model.model")
 
 
 def lemmatize(list_of_words):
     """
-    lemmatizes a list of strings using PyMorphy
+    lemmatizes a list of str using PyMorphy
 
-    :param list_of_words: list of strings to be lemmatized
-    :return: list of lemmatized word strings
+    :param list_of_words: list of str to be lemmatized
+    :return: list of lemmatized word str
     """
     # [morph.parse(word)[0].normal_form for word in list_of_words]
     return list(map(lambda word: morph.parse(word)[0].normal_form, list_of_words))
@@ -30,11 +32,11 @@ def preprocess(text):
     """
     cleans a text of punctuation and case
 
-    :param text: string to be cleaned
-    :return: a list of strings (words) in lowercase and stripped of punctuation
+    :param text: str to be cleaned
+    :return: a list of str (words) in lowercase and stripped of punctuation
     """
     low = text.lower()
-    stripped = re.sub("!|\.|,|#|$|%|\\|\'|\(|\)|-|\+|\*|/|\:|;|<|>|=|\?|\[|\]|@|^|_|`|{|}|~", "", low)
+    stripped = re.sub("!|\.|,|#|$|%|\\|\'|\(|\)|\+|\*|/|\:|;|<|>|=|\?|\[|\]|@|^|_|`|{|}|~", "", low)
     words = stripped.split()
     return words
 
@@ -64,7 +66,7 @@ def get_data():
     """
     reads quora_question_pairs_rus dataset from file and applies preprocessing
 
-    :return: a list of preprocessed strings-texts
+    :return: a list of preprocessed str - texts
     """
     questions = pd.read_csv("quora_question_pairs_rus.csv", index_col=0).dropna()
     train_texts = questions[:trained_size]['question2'].tolist()
@@ -77,7 +79,7 @@ def get_counts(list_of_texts):
     """
     calculates a row count doc2term matrix (rows - documents, columns - words)
 
-    :param list_of_texts: a list of strings (documents)
+    :param list_of_texts: a list of str (documents)
     :return count_matrix: np.ndarray, matrix of word counts for each document
     :return count_vectorizer: fitted CountVectorizer from sklearn
     """
@@ -103,4 +105,3 @@ class DataSet:
 
 
 data_lemm = DataSet(lemm=True)
-data_raw = DataSet()

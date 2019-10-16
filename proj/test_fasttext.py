@@ -3,14 +3,11 @@ import pickle
 import pandas as pd
 
 from gensim.models.keyedvectors import KeyedVectors
-from sklearn.preprocessing import normalize
 
 from constants import *
 
 model = KeyedVectors.load(path_fasttext_model)
-questions = pd.read_csv("quora_question_pairs_rus.csv", index_col=0).dropna()
-train_texts = questions[:2000]['question2'].tolist()
-
+train_texts = data_lemm.texts
 
 def doc_to_vec(lemmas):
     """
@@ -32,8 +29,8 @@ def doc_to_vec(lemmas):
         return doc_vec
 
 fasttext_doc2vec_corpus = []
-for doc in train_texts:
-    fasttext_doc2vec_corpus.append(doc_to_vec(lemmatize(preprocess(doc))))
+for doc in data_lemm.lemmatized_texts:
+    fasttext_doc2vec_corpus.append(doc_to_vec(doc.split()))
 #
 # with open("2000_primitive_lemmatized_normalized_fasttext_matrix.pickle", "wb") as f:
 #     pickle.dump(normalize(np.array(fasttext_doc2vec_corpus)), f)
@@ -41,7 +38,7 @@ for doc in train_texts:
 # with open("2000_primitive_lemmatized_normalized_fasttext_matrix.pickle", "rb") as f:
 #     fasttext_doc2vec_corpus = pickle.load(f)
 
-def search_fasttext(query, n=10):
+def search_fasttext(text, n=10):
     """
     searches a given query in fasttext model, returns top n results
 
@@ -49,7 +46,7 @@ def search_fasttext(query, n=10):
     :param n: int, number of most relevant documents to be shown, 10 by default
     :return: list of tuples (float, str), metric and document, relevance ordered
     """
-    query_vec = doc_to_vec(lemmatize(preprocess(query)))
+    query_vec = doc_to_vec(lemmatize(preprocess(text)))
     cos_sim_relevance = [cos_sim(query_vec, document) for document in fasttext_doc2vec_corpus]
     relevance_sorted_document_ids_top_n = enum_sort_tuple(cos_sim_relevance)[:n]
     return [(metric, train_texts[index]) for index, metric in
@@ -57,4 +54,5 @@ def search_fasttext(query, n=10):
 
 
 query = "жизнь трудна но к счастью коротка"
+# query = "Почему меня девушки не любят?"
 print(search_fasttext(query))
