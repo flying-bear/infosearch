@@ -42,6 +42,7 @@ class SearchBM25:
         :param path_bm25_matrix: string, path to a pickle file with bm25 matrix
         :return: np.ndarray, bm25 matrix from file
         """
+        logger.info(f"loading bm25 from {path_bm25_matrix}")
         with open(path_bm25_matrix, 'rb') as f:
             return pickle.load(f)
 
@@ -89,12 +90,13 @@ class SearchBM25:
 
     def index(self, path="lemmatized_normalized_bm25_matrix.pickle"):
         """
-        computes and saves a normalized tf-idf matrix to path
+        computes and saves a normalized bm25matrix to path
 
         :param path: string, pickle file for matrix to be saved to,
             "lemmatized_normalized_bm25_matrix.pickle" by default
-        :return: np.ndarray, normalized tf-idf matrix
+        :return: np.ndarray, normalized bm25 matrix
         """
+        logger.info("indexing bm25 matrix")
         lens = [len(text.split()) for text in self.data.texts]
         avgdl = sum(lens) / self.N
         tf_matrix = self.data.count_matrix / np.array(lens).reshape((-1, 1))
@@ -105,6 +107,7 @@ class SearchBM25:
         bm25_matrix = self.compute_bm25(tf_matrix, lens, idfs, avgdl)
         matrix = normalize(bm25_matrix)
 
+        logger.info("saving bm25 matrix")
         with open(path, 'wb') as f:
             pickle.dump(matrix, f)
         return matrix
@@ -119,6 +122,9 @@ class SearchBM25:
         """
         if n >= trained_size:
             n = trained_size - 1
+
+        logger.info(f"searching for {n} most relevant results for '{text}' in bm25 model")
+
         query = " ".join(lemmatize(preprocess(text)))
         vector = self.data.count_vectorizer.transform([query]).toarray()
         norm_vector = normalize(vector).reshape(-1, 1)

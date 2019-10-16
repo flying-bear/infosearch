@@ -5,15 +5,20 @@ import tensorflow as tf
 
 from flask import Flask, request, render_template
 
+from constants import logger
+from constants import path_tfidf_matrix, path_bm25_matrix, path_fasttext_matrix, path_elmo_matrix
+
 from indexing_TF_IDF import SearchTfidf
 from indexing_bm25 import SearchBM25
 from indexing_fasttext import SearchFastText
 from indexing_elmo import SearchELMo
 
+logger.info("________________new app run__________________")
 app = Flask(__name__, template_folder="templates")
-tf_idf = SearchTfidf("lemmatized_normalized_tf_idf_matrix.pickle")
-bm = SearchBM25("lemmatized_normalized_bm25_matrix.pickle")
-ft = SearchFastText("lemmatized_fasttext_matrix.pickle")
+
+tf_idf = SearchTfidf(path_tfidf_matrix)
+bm = SearchBM25(path_bm25_matrix)
+ft = SearchFastText(path_fasttext_matrix)
 
 
 @app.route('/')
@@ -22,30 +27,38 @@ def initial():
 
 
 @app.route('/search', methods=['GET'])
-def search(n=5):
-    text = ""
-    engine = ""
-    metrics = []
-    if request.args:
-        text = request.args["query_text"]
-        if "engine" in request.args:
-            engine = request.args["engine"]
+def search(n=10):
+    try:
+        if request.args:
+            metrics = []
+            text = request.args["query_text"]
+            if "engine" in request.args:
+                engine = request.args["engine"]
+            else:
+                engine = "tf-idf"
+            if engine == "tf-idf":
+                metrics = tf_idf.search(text, n=n)
+            elif engine == "bm25":
+                metrics = bm.search(text, n=n)
+            elif engine == "fasttext":
+                metrics = ft.search(text, n=n)
+            elif engine == "elmo":
+                tf.reset_default_graph()
+                el = SearchELMo(path_elmo_matrix)
+                metrics = el.search(text, n=n)
+            if not metrics[0][0]:
+                logger.info(f"nothing was found for '{text}' in {engine} model")
+                return render_template("index.html", text=text, engine=engine)
+            metrics = [item for item in metrics if item[0]]
+            if n != len(metrics):
+                logger.info(f"expected to find {n} results, but found only {len(metrics)}")
+                n = len(metrics)
+            return render_template("index.html", text=text, engine=engine, n=n, metrics=metrics)
         else:
-            engine = "tf-idf"
-        if engine == "tf-idf":
-            metrics = tf_idf.search(text, n=n)
-        elif engine == "bm25":
-            metrics = bm.search(text, n=n)
-        elif engine == "fasttext":
-            metrics = ft.search(text, n=n)
-        elif engine == "elmo":
-            tf.reset_default_graph()
-            el = SearchELMo("elmo_matrix.pickle")
-            metrics = el.search(text, n=n)
-        if not metrics[0][0]:
-            return render_template("index.html", text=text, engine=engine)
-    return render_template("index.html", text=text, engine=engine, n=n, metrics=metrics)
-
+            return render_template("index.html")
+    except Exception as ex:
+        logger.critical(f"app crashed with exception {ex}")
+        return render_template("index.html", exception=ex)
 
 if __name__ == "__main__":
     app.run()

@@ -38,6 +38,7 @@ class SearchELMo:
         :param path_elmo_matrix: string, path to a pickle file with elmo matrix
         :return: np.ndarray, elmo matrix from file
         """
+        logger.info(f"loading elmo from {path_elmo_matrix}")
         with open(path_elmo_matrix, 'rb') as f:
             matrix = pickle.load(f)
         return matrix
@@ -75,6 +76,7 @@ class SearchELMo:
 
         :return: matrix of document vectors
         """
+        logger.info("indexing elmo matrix")
         tokenized = [tokenize(q) for q in self.data.texts]
 
         with tf.Session() as sess:
@@ -91,6 +93,7 @@ class SearchELMo:
                     indexed.append(cropped_vector)
 
         matrix = np.array(indexed)
+        logger.info("saving elmo matrix")
         with open(path, 'wb') as f:
             pickle.dump(matrix, f)
         return matrix
@@ -103,6 +106,11 @@ class SearchELMo:
         :param n: int, how many most relevant results to return, 10 by default
         :return: list of tuples (float, str), cos_sim to the text, document text
         """
+        if n >= trained_size:
+            n = trained_size - 1
+
+        logger.info(f"searching for {n} most relevant results for '{text}' in elmo model")
+
         query = " ".join(preprocess(text))
         vector = self.doc_to_vec(query)
         cos_sim_relevance = [cos_sim(vector, doc_vec) for doc_vec in np.array(self.matrix)]

@@ -2,6 +2,7 @@
 This module contains constants and functions to be used in all other modules of the project.
 """
 
+import logging
 import numpy as np
 import os
 import pandas as pd
@@ -11,9 +12,22 @@ import re
 
 from sklearn.feature_extraction.text import CountVectorizer
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+fh = logging.FileHandler("app.log", encoding='utf-8')
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+logger.addHandler(fh)
+
 morph = pymorphy2.MorphAnalyzer()
 trained_size = 10000  # constant that defines further size of corpus for models to be trained on
 path_fasttext_model = os.path.join("fasttext", "model.model")
+
+path_tfidf_matrix = "lemmatized_normalized_tf_idf_matrix.pickle"
+path_bm25_matrix = "lemmatized_normalized_bm25_matrix.pickle"
+path_fasttext_matrix = "lemmatized_fasttext_matrix.pickle"
+path_elmo_matrix = "elmo_matrix.pickle"
+
 
 
 def lemmatize(list_of_words):
@@ -88,18 +102,23 @@ def get_counts(list_of_texts):
 
 
 class DataSet:
-    def __init__(self, lemm=False):
+    """
+    this is a dataset class for quora question pairs
+    attributes:
+        texts, a list of preprocessed str
+        lemmatized_texts,  a list of lemmatized preprocessed str
+        count_matrix, a np.ndarray from  sklearn CountVectorizer fitted on dataset
+        count_vectorizer, sklearn CountVectorizer fitted on dataset
+    """
+    def __init__(self, path="lemmatized_count_vectorizer.pickle"):
+        """
+        :param path: str, where to dump pickled CountVectorizer, "lemmatized_count_vectorizer.pickle" by default
+        """
         self.texts = get_data()
-        if lemm:
-            # [" ".join(lemmatize(sent.split())) for sent in self.texts]
-            self.lemmatized_texts = [" ".join(lemmatize(text.split())) for text in self.texts]
-            self.count_matrix, self.count_vectorizer = get_counts(self.lemmatized_texts)
-            path = "lemmatized_count_vectorizer.pickle"
-        else:
-            path = "raw_count_vectorizer.pickle"
-            self.count_matrix, self.count_vectorizer = get_counts(self.texts)
+        self.lemmatized_texts = [" ".join(lemmatize(text.split())) for text in self.texts]
+        self.count_matrix, self.count_vectorizer = get_counts(self.lemmatized_texts)
         with open(path, 'wb') as f:
             pickle.dump(self.count_vectorizer, f)
 
 
-data_lemm = DataSet(lemm=True)
+data_lemm = DataSet()

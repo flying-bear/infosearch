@@ -44,7 +44,7 @@
             <input class="form-control mr-sm-2" type="text" placeholder="Search" name="query_text" aria-label="Search" required>
             <ul class="navbar-nav mr-auto">
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Model</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <button class="dropdown-item" type="radio" name="engine" value="tf-idf">TF-IDF</button>
                     <button class="dropdown-item" type="radio" name="engine" value="bm25">BM25</button>
@@ -63,15 +63,17 @@
 <main role="main" class="flex-shrink-0">
   <div class="container">
       <br>
-      <br>
-      {% if not engine or not text%}
+      {% if exception %}
+      <h2 class="mt-4">The app crashed. Go to logs to see the exception.</h2>
+      <h3 class="mt-4">Or rather search for something else. Search results will be displayed here</h3>
+      {% elif not engine or not text%}
       <h2 class="mt-4">Search results will be displayed here</h2>
       {% elif not metrics %}
-      <h2 class="mt-4">Nothing was found for "{{ text }}" with {{ engine }}.</h2>
+      <br>
+      <h3 class="mt-4">Nothing was found for "{{ text }}" with {{ engine }}.</h3>
       {% else%}
       <br>
-      <br>
-      <h2 class="mt-4">Search results for "{{ text }}" with {{ engine }}.</h2>
+      <h3 class="mt-4">Search results for "{{ text }}" with {{ engine }}.</h3>
       <br>
       <div class="row mb-3">
           <div class="col-md-1 themed-grid-col"><b>rank</b></div>

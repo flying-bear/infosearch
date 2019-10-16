@@ -36,3 +36,4 @@ proj/lemmatized_tf_idf_matrix.npy
 *.pickle
 *.npy
 *.pyc
+*.xml

@@ -38,6 +38,7 @@ class SearchFastText:
         :param path_fasttext_matrix: str, path to a pickle file with fasttext matrix
         :return: np.ndarray, fasttext matrix from file
         """
+        logger.info(f"loading fasttext from {path_fasttext_matrix}")
         with open(path_fasttext_matrix, 'rb') as f:
             return pickle.load(f)
 
@@ -55,7 +56,8 @@ class SearchFastText:
                 try:
                     lemmas_vectors[idx] = self.model[lemma]
                 except AttributeError as e:  # word in vocab but not in model
-                    print(e)
+                    logger.warning(f"word {lemma} is in model vocab, but not in the model ")
+                    logger.info(f"exception message: {e}")
         if lemmas_vectors.shape[0] is not 0:  # if lemmas_vectors is empty
             doc_vec = np.mean(lemmas_vectors, axis=0)
             return doc_vec
@@ -68,10 +70,12 @@ class SearchFastText:
             "lemmatized_fasttext_matrix.pickle" by default
         :return: np.ndarray, fasttext matrix
         """
+        logger.info("indexing fasttext matrix")
         fasttext_doc2vec_matrix = []
         for doc in self.data.lemmatized_texts:
             fasttext_doc2vec_matrix.append(self.doc_to_vec(doc.split()))
         matrix = fasttext_doc2vec_matrix
+        logger.info("saving fasttext matrix")
         with open(path, 'wb') as f:
             pickle.dump(matrix, f)
         return matrix
@@ -84,6 +88,11 @@ class SearchFastText:
         :param n: int, number of most relevant documents to be shown, 10 by default
         :return: list of tuples (float, str), metric and document, relevance ordered
         """
+        if n >= trained_size:
+            n = trained_size - 1
+
+        logger.info(f"searching for {n} most relevant results for '{text}' in fasttext model")
+
         vector = self.doc_to_vec(lemmatize(preprocess(text)))
         cos_sim_list = [cos_sim(vector, document) for document in self.matrix]
         return [(metric, self.data.texts[index]) for index, metric in enum_sort_tuple(cos_sim_list)[:n]]

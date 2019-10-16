@@ -36,6 +36,7 @@ class SearchTfidf:
         :param path_tfidf_matrix: string, path to a pickle file with tf-idf matrix
         :return: np.ndarray, tf-idf matrix from file
         """
+        logger.info(f"loading tf-id from {path_tfidf_matrix}")
         with open(path_tfidf_matrix, 'rb') as f:
             matrix = pickle.load(f)
         return matrix
@@ -48,9 +49,11 @@ class SearchTfidf:
             "lemmatized_normalized_tf_idf_matrix.pickle" by default
         :return: np.ndarray, tf-idf matrix from file
         """
+        logger.info("indexing tf-idf matrix")
         transformer = TfidfTransformer()
         tfidf_matrix = transformer.fit_transform(self.data.count_matrix).toarray()
         matrix = normalize(tfidf_matrix)
+        logger.info("saving tf-idf matrix")
         with open(path, 'wb') as f:
             pickle.dump(matrix, f)
         return matrix
@@ -63,6 +66,11 @@ class SearchTfidf:
         :param n: int, number of most relevant documents to be shown, 10 by default
         :return: list of integers, relevance ordered ids of documents
         """
+        if n >= trained_size:
+            n = trained_size - 1
+
+        logger.info(f"searching for {n} most relevant results for '{text}' in tf-idf model")
+
         query = " ".join(lemmatize(preprocess(text)))
         vector = self.data.count_vectorizer.transform([query]).toarray()
         norm_vector = normalize(vector).reshape(-1, 1)
