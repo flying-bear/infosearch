@@ -26,10 +26,10 @@ class SearhTfidf:
         if path_tfidf_matrix:
             self.matrix = self.load(path_tfidf_matrix)
         else:
-            self.matrix =  self.index()
+            self.matrix = self.index()
 
     @staticmethod
-    def load(path_tfidf_matrix,):
+    def load(path_tfidf_matrix):
         """
         loads data form a given path
 
