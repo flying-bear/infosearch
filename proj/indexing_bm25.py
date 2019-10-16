@@ -21,7 +21,7 @@ class SearchBM25:
         computes or loads indexed tf-idf matrix for search
 
         :param path_bm25_matrix: string, path to a pickle file with tf-idf matrix (loaded from file if given)
-        :param data: DataSet from constants, data_lemm by default
+        :param data: lemmatized version of DataSet from constants, data_lemm by default
         :param b: float, b coefficient in bm25 formula, 0.75 by default
         :param k: float, bm25 coefficient, 2.0 by default
         """
