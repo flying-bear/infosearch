@@ -5,5 +5,5 @@ pandas
 pickle
 pymorphy2
 sklearn
-tensorflow==1.14.0
+tensorflow==1.15.2
 # to run: pip install -r requirements.txt
